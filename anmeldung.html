@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akham Tajweed Kurs Anmeldung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .list {
+            margin-top: 20px;
+        }
+        .list-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Akham Tajweed Kurs Anmeldung</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Dein Name...">
+    <button onclick="anmelden()">Anmelden</button>
+    
+    <div class="list" id="namensListe">
+        <h3>Angemeldete Personen:</h3>
+    </div>
+</div>
+
+<script>
+    // Funktion, um die Anmeldung zu verarbeiten
+    function anmelden() {
+        const nameInput = document.getElementById("name");
+        const name = nameInput.value.trim();
+
+        if (name) {
+            // Holen der gespeicherten Liste oder leere Liste verwenden
+            let teilnehmerListe = JSON.parse(localStorage.getItem("teilnehmerListe")) || [];
+
+            // Neuen Namen hinzufügen
+            teilnehmerListe.push(name);
+
+            // Liste wieder in Local Storage speichern
+            localStorage.setItem("teilnehmerListe", JSON.stringify(teilnehmerListe));
+
+            // Liste im DOM anzeigen
+            anzeigenListe();
+
+            // Eingabefeld leeren
+            nameInput.value = "";
+        } else {
+            alert("Bitte gib einen Namen ein!");
+        }
+    }
+
+    // Funktion zum Anzeigen der Liste
+    function anzeigenListe() {
+        const listDiv = document.getElementById("namensListe");
+
+        // Liste leeren
+        listDiv.innerHTML = "<h3>Angemeldete Personen:</h3>";
+
+        // Daten aus Local Storage abrufen
+        let teilnehmerListe = JSON.parse(localStorage.getItem("teilnehmerListe")) || [];
+
+        // Teilnehmerliste durchlaufen und jeden Namen anzeigen
+        teilnehmerListe.forEach(function(name) {
+            const listItem = document.createElement("div");
+            listItem.className = "list-item";
+            listItem.textContent = name;
+            listDiv.appendChild(listItem);
+        });
+    }
+
+    // Liste beim Laden der Seite anzeigen
+    window.onload = anzeigenListe;
+</script>
+
+</body>
+</html>
+
